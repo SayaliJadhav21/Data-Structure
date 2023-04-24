@@ -1,10 +1,9 @@
-public class LinkedListDS
+public class ReverseLinkedList
 {
 	public static void main(String[] args) {
 	    LinkedListNew list = new LinkedListNew(10);
 		System.out.println("Linked List : " + list.toString(list.head));
-		Node head = list.append(20);
-		System.out.println("Linked List : " + list.toString(head));
+		Node head = list.append(20);		
 		head = list.prepend(5);
 		System.out.println("Linked List : " + list.toString(head));
 	    head = list.insert(1, 40);
@@ -54,7 +53,7 @@ class LinkedListNew {
         }
         return str;
     }
-    
+
     // Add element at the back of list
     public Node append(Integer value) {
         Node temp = new Node(value);
@@ -63,52 +62,28 @@ class LinkedListNew {
         this.length++;
         return this.head;
     }
-    
-    // Add element at the front of list
-    public Node prepend(Integer value) {
-        Node temp = new Node(value);
-        temp.next = this.head;
-        this.head = temp;
-        length++;
-        return head;
-    }
-    
-    // Insert element is list at given index
-    public Node insert(int index, Integer value) {
-        Node temp = new Node(value);
-        if(index == 0) {
-            temp.next = head;
-            this.head = temp;
-            this.length = 1;
-        } else {
-            Node prev = this.head;
-            for(int i=0;i<index-1;i++) {
-                prev = prev.next;
-            }
-            if(prev.next == null) {
-                prev.next = temp;
-                this.tail = temp;
-            } else {
-                temp.next = prev.next;
-                prev.next = temp;
-            }
-            this.length++;
+
+    //Reverse the Linked list
+    public Node reverse() {
+        if(this.length == 1) {
+            return this.head;
         }
+        // The first and second elements of list are changed 10-20-30-40-50, then 20 is second and 10 is first and
+        // second.next = first like this all elements are reversed. ex. for next iteration 30 is second and 20 os first.
+        Node first = this.head;
+        // The first element becomes the tail of the list 
+        this.tail = first;
+        Node second = first.next;
+        while(second!=null) {
+            Node temp = second.next;
+            second.next = first;
+            first = second;
+            second = temp;
+        }
+        // The head of the list will point to null
+        this.head.next = null;
+        // The last element becomes the head of the list
+        this.head = first;
         return this.head;
     }
-    
-    // Remove element from given index
-    public Node remove(int index) {
-        if(index == 0) {
-            this.head = head.next;
-        } else {
-            Node prev = this.head;
-            for(int i=0;i<index-1;i++) {
-                prev = prev.next;
-            }
-            prev.next = prev.next.next;
-        }
-        return this.head;
-    }
-        
 }
